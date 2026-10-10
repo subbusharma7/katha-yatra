@@ -12,22 +12,25 @@
 <title>कथा यात्रा</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Eczar:wght@500;600&family=Hind:wght@400;500;600&display=swap">
 <style>
 /* Layout: one phone-width column. Two tabs (Today, Journey) and a full-screen reader. */
 :root{
   --bg:#fdfcff; --soft:#f4f3f9; --ink:#24213a; --muted:#6a6782; --line:#e4e1ef;
   --accent:#0f6e6a; --accent-soft:#e0f1ef; --gold:#b9770e; --gold-soft:#fbefd9;
-  --display:"Tiro Devanagari Hindi","Noto Serif Devanagari",Georgia,serif;
-  --body:"Mukta","Noto Sans Devanagari",system-ui,sans-serif;
+  --display:"Eczar","Noto Serif Devanagari",Georgia,serif;
+  --body:"Hind","Noto Sans Devanagari",system-ui,sans-serif;
   --read:19px;
+  --pat:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%20fill%3D%22none%22%20stroke%3D%22%230f6e6a%22%20stroke-width%3D%221.6%22%20stroke-linejoin%3D%22round%22%20opacity%3D%220.09%22%3E%3Cg%20transform%3D%22translate%2816%2016%29%20scale%28.5%29%22%3E%3Cpath%20d%3D%22M32%2014c6%207%206%2021%200%2030-6-9-6-23%200-30z%22/%3E%3Cpath%20d%3D%22M32%2044c-4-9-12-15-20-15%201%209%208%2015%2020%2015z%22/%3E%3Cpath%20d%3D%22M32%2044c4-9%2012-15%2020-15-1%209-8%2015-20%2015z%22/%3E%3C/g%3E%3C/svg%3E");
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#1b1a2b; --soft:#121120; --ink:#ebe9f6; --muted:#a5a2bd; --line:#2e2b44;
-  --accent:#5fc9bf; --accent-soft:#163331; --gold:#e6b45a; --gold-soft:#33280f; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#1b1a2b; --soft:#121120; --ink:#ebe9f6; --muted:#a5a2bd; --line:#2e2b44;
-  --accent:#5fc9bf; --accent-soft:#163331; --gold:#e6b45a; --gold-soft:#33280f; color-scheme:dark}
+:root[data-theme="dark"]{--pat:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%20fill%3D%22none%22%20stroke%3D%22%239c98e6%22%20stroke-width%3D%221.6%22%20stroke-linejoin%3D%22round%22%20opacity%3D%220.16%22%3E%3Cg%20transform%3D%22translate%2816%2016%29%20scale%28.5%29%22%3E%3Cpath%20d%3D%22M32%2014c6%207%206%2021%200%2030-6-9-6-23%200-30z%22/%3E%3Cpath%20d%3D%22M32%2044c-4-9-12-15-20-15%201%209%208%2015%2020%2015z%22/%3E%3Cpath%20d%3D%22M32%2044c4-9%2012-15%2020-15-1%209-8%2015-20%2015z%22/%3E%3C/g%3E%3C/svg%3E"); --bg:#151633; --soft:#1d1e48; --ink:#e9e6ff; --muted:#a9a6d6; --line:#2e2f60; --accent:#f2c95c; --accent-soft:#23245a; --gold:#f2c95c; --gold-soft:#262862; color-scheme:dark}
+:root[data-theme="dark"] .go{border-radius:999px;color:#1a1b3d}
+:root[data-theme="dark"] .go.done{color:var(--accent);background:transparent}
+:root[data-theme="dark"] .dot.now{background:#fff;border-color:#fff}
+.key i.k-read{background:var(--accent);border-color:var(--accent)}.key i.k-now{background:var(--gold);border-color:var(--gold)}.key i.k-open{border-color:var(--gold)}
+:root[data-theme="dark"] .key i.k-now{background:#fff;border-color:#fff}
+:root[data-theme="dark"] .today{border:1px solid var(--line)}
+:root[data-theme="dark"] .reader h1,:root[data-theme="dark"] .ttl,:root[data-theme="dark"] .hello{color:#fff}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
@@ -35,10 +38,11 @@ button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
 button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .app{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
 .screen{flex:1;padding:22px 20px 24px}
+.app.pat{background-image:var(--pat);background-size:64px 64px;background-repeat:repeat}
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .brand{font-family:var(--display);font-size:20px;color:var(--accent)}
 .date{font-size:13px;color:var(--muted)}
-.hello{font-family:var(--display);font-size:28px;margin:18px 0 2px;line-height:1.25}
+.hello{font-family:var(--display);font-weight:500;font-size:28px;margin:18px 0 2px;line-height:1.25}
 .sub{color:var(--muted);margin:0}
 .prog{margin:18px 0 6px;display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .track{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
@@ -47,7 +51,7 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outli
 .sym{width:64px;height:64px;color:var(--accent)}
 .sym svg,.s svg{width:100%;height:100%;display:block}
 .lbl{font-size:13px;letter-spacing:.06em;color:var(--accent);font-weight:600}
-.ttl{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.3;margin:0}
+.ttl{font-family:var(--display);font-weight:600;font-size:26px;line-height:1.3;margin:0}
 .chips{display:flex;flex-wrap:wrap;gap:6px;font-size:13px;color:var(--muted)}
 .chip{background:var(--bg);border-radius:6px;padding:1px 8px}
 .go{border:none;background:var(--accent);color:var(--bg);border-radius:12px;padding:12px;font-size:17px;font-weight:500;margin-top:4px}
@@ -91,12 +95,12 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outli
 .reader{padding:24px 22px 48px;font-size:var(--read);line-height:1.85}
 .reader .sym{margin:0 auto;display:block;width:72px;height:72px}
 .reader .dayl{text-align:center;font-size:14px;color:var(--muted);margin-top:8px;letter-spacing:.03em}
-.reader h1{font-family:var(--display);font-weight:400;font-size:1.55em;line-height:1.3;text-align:center;margin:6px 0 24px;text-wrap:balance}
+.reader h1{font-family:var(--display);font-weight:600;font-size:1.55em;line-height:1.3;text-align:center;margin:6px 0 24px;text-wrap:balance}
 .reader h2{font-size:1em;font-weight:600;color:var(--accent);margin:34px 0 10px}
-.reader h4{font-family:var(--display);font-weight:400;font-size:1.1em;margin:26px 0 6px}
+.reader h4{font-family:var(--display);font-weight:500;font-size:1.1em;margin:26px 0 6px}
 .reader p{margin:0 0 1em}
 .reader b{font-weight:600}
-.hook{font-family:var(--display);font-size:1.1em;border-left:3px solid var(--gold);padding-left:14px}
+.hook{font-family:var(--body);font-size:1.08em;border-left:3px solid var(--gold);padding-left:14px}
 .reader ul{padding-left:1.1em;margin:0}
 .reader li{margin-bottom:.7em}
 .box{background:var(--gold-soft);border-radius:14px;padding:16px 18px;margin-top:10px}
@@ -107,6 +111,12 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outli
 .quiz details p{margin:8px 0 4px}
 .done-wrap{text-align:center;margin-top:34px}
 .thanks{font-size:16px;color:var(--muted);margin-top:12px}
+.notif{display:grid;gap:8px;background:var(--soft);border-radius:12px;padding:12px}
+.notif .nb{border:none;background:var(--accent);color:var(--bg);border-radius:10px;padding:9px 12px;font-size:15px}
+.notif .nb.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.notif textarea{width:100%;min-height:70px;font-size:12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);padding:8px}
+.notif .btns{display:flex;gap:8px;flex-wrap:wrap}
+.notif a.nb{text-decoration:none;text-align:center}
 .ph{background:var(--soft);border-radius:12px;padding:18px;color:var(--muted);text-align:center}
 @media (prefers-reduced-motion:no-preference){.today,.reader{animation:in .35s ease-out}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
 </style>
@@ -143,7 +153,8 @@ const save=()=>S.set("ky_state",st);
 const $=id=>document.getElementById(id);
 function todayN(){const [y,m,d]=st.start.split("-").map(Number);const s=new Date(y,m-1,d);const t=new Date();t.setHours(0,0,0,0);return Math.min(TOTAL,Math.max(1,Math.round((t-s)/864e5)+1));}
 function info(n){const x=D[n-1];return {n,t:x[0],w:x[1],f:x[2],min:x[3],sym:x[4]}}
-function applyPrefs(){document.documentElement.style.setProperty("--read",st.size+"px");if(st.theme==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",st.theme);}
+function isNight(){const h=new Date().getHours();return h>=19||h<6}
+function applyPrefs(){const r=document.documentElement;r.style.setProperty("--read",st.size+"px");const t=st.theme==="auto"?(isNight()?"dark":"light"):st.theme;if(r.getAttribute("data-theme")!==t){r.setAttribute("data-theme",t);const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="dark"?"#151633":"#0f6e6a");}}
 function streak(T){let s=0;for(let d=T;d>=1;d--){if(st.read.includes(d))s++;else if(d!==T)break;}return s}
 function greet(){const h=new Date().getHours();return h<12?"शुभ प्रभात 🌸":h<17?"नमस्ते 🌸":"शुभ संध्या 🪔"}
 function home(){
@@ -154,7 +165,7 @@ function home(){
   return `<div class="screen">
    <div class="top"><span class="brand">कथा यात्रा</span><span class="date">${dateStr}</span></div>
    <p class="hello">${greet()}</p>
-   <p class="sub">${MONTHS[Math.ceil(T/30)-1]} का सफ़र जारी है</p>
+   <p class="sub">महीना ${Math.ceil(T/30)} · ${MONTHS[Math.ceil(T/30)-1]}</p>
    <div class="prog"><span>Day ${T} / ${TOTAL}</span><span>${st.read.length} ${st.read.length===1?"कहानी पढ़ी":"कहानियाँ पढ़ीं"}</span></div>
    <div class="track"><i style="width:${Math.max(st.read.length/TOTAL*100,1)}%"></i></div>
    <div class="today"><div class="sym">${SYM[d.sym]}</div><div class="lbl">आज की कहानी · DAY ${d.n}</div>
@@ -173,14 +184,36 @@ function journey(){
     for(let n=s;n<s+30&&n<=TOTAL;n++){const r=st.read.includes(n),o=n<=T,now=n===T&&!r;
       h+=`<button type="button" class="dot${r?' read':now?' now':o?' open':''}" ${o?`data-open="${n}"`:'disabled'} aria-label="Day ${n}"></button>`}
     h+=`</div></div>`;});
-  h+=`<div class="key"><span><i style="background:var(--accent);border-color:var(--accent)"></i>पढ़ी</span><span><i style="background:var(--gold);border-color:var(--gold)"></i>आज</span><span><i style="border-color:var(--gold)"></i>छूटी</span><span><i></i>आने वाली</span></div>
+  h+=`<div class="key"><span><i class="k-read"></i>पढ़ी</span><span><i class="k-now"></i>आज</span><span><i class="k-open"></i>छूटी</span><span><i></i>आने वाली</span></div>
    <div class="set">
     <label for="start">शुरुआत की तारीख <input type="date" id="start" value="${st.start}"></label>
     <small>Day 1 इसी तारीख को खुला था। इसे बदलने से "आज" का दिन बदल जाएगा।</small>
-    <div class="lr">रंग <span class="seg">${[["auto","फ़ोन जैसा"],["light","दिन"],["dark","रात"]].map(([k,l])=>`<button type="button" data-th="${k}" aria-pressed="${st.theme===k}">${l}</button>`).join("")}</span></div>
+    <div class="lr">रंग <span class="seg">${[["auto","अपने आप"],["light","दिन"],["dark","रात"]].map(([k,l])=>`<button type="button" data-th="${k}" aria-pressed="${st.theme===k}">${l}</button>`).join("")}</span></div>
+    <small>"अपने आप" में शाम 7 बजे से सुबह 6 बजे तक रात वाला रूप रहता है।</small>
+    ${notifBox()}
    </div></div>`;
   return h;
 }
+const VAPID_PUBLIC="BMdo40mgaHpyCw2dd39WkrOqa3UV94BpdQXKfBB9XrAMaQRBax--89CDKW8kajzHftigHi-rQKulvtEn7fZASPI";
+const notifOK=()=>"serviceWorker" in navigator&&"PushManager" in window&&"Notification" in window;
+function notifBox(){
+  if(!notifOK())return `<div class="notif"><b>🔔 रोज़ की याद</b><small>इस browser में notification नहीं चल सकते। Chrome में app खोलिए।</small></div>`;
+  if(Notification.permission==="denied")return `<div class="notif"><b>🔔 रोज़ की याद</b><small>Notification बंद हैं। Chrome की settings में इस site के लिए Notifications चालू करें, फिर यहाँ लौटें।</small></div>`;
+  if(!st.notif)return `<div class="notif"><b>🔔 रोज़ सुबह की याद</b><small>हर सुबह 8 बजे नई कहानी की खबर। अगर उस समय internet बंद हो, तो internet आते ही मिल जाएगी।</small><button type="button" class="nb" data-notif="on">रोज़ याद दिलाएँ</button><span id="nmsg"></span></div>`;
+  const stale=st.notifStart&&st.notifStart!==st.start;
+  return `<div class="notif"><b>🔔 रोज़ की याद: चालू ✓</b><small>${stale?"<b>शुरुआत की तारीख बदली है।</b> नीचे का नया code फिर से भेजिए।":"आखिरी कदम: यह code एक बार शुभम को भेज दीजिए।"}</small>
+   <textarea readonly id="ncode" aria-label="Notification code">${st.notif}</textarea>
+   <div class="btns"><a class="nb" href="https://wa.me/?text=${encodeURIComponent("Katha Yatra code:\n"+st.notif)}" target="_blank" rel="noopener">WhatsApp पर भेजें</a><button type="button" class="nb ghost" data-notif="copy">Copy</button><button type="button" class="nb ghost" data-notif="test">Test</button></div><span id="nmsg"></span></div>`;
+}
+function b64(s){return btoa(unescape(encodeURIComponent(s)))}
+function urlB64(k){const p="=".repeat((4-k.length%4)%4);const r=atob((k+p).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from([...r].map(c=>c.charCodeAt(0)))}
+async function notifOn(){const m=$("nmsg");const say=t=>{if(m)m.textContent=t};
+  try{say("एक पल...");const perm=await Notification.requestPermission();if(perm!=="granted"){render();return}
+    const reg=await navigator.serviceWorker.register("sw.js");await navigator.serviceWorker.ready;
+    let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlB64(VAPID_PUBLIC)});
+    st.notif=b64(JSON.stringify({s:sub.toJSON(),d:st.start}));st.notifStart=st.start;save();render();
+  }catch(e){say("अभी चालू नहीं हो पाया। Internet चालू करके फिर से कोशिश करें। ("+e.message+")")}}
+async function notifRefresh(){if(!st.notif||!notifOK()||Notification.permission!=="granted")return;try{const reg=await navigator.serviceWorker.getRegistration();const sub=reg&&await reg.pushManager.getSubscription();if(!sub)return;const code=b64(JSON.stringify({s:sub.toJSON(),d:st.start}));if(code!==st.notif){st.notif=code;save();if(view==="journey")render();}}catch(e){}}
 function reader(n){
   const d=info(n),read=st.read.includes(n),T=todayN(),nx=n<TOTAL?info(n+1):null;
   const body=cache[n]===undefined?`<p class="ph">कहानी खुल रही है...</p>`:cache[n]===null?`<p class="ph">यह कहानी जल्द आ रही है 🌸<br>थोड़ी देर बाद फिर देखिए।</p>`:cache[n];
@@ -190,10 +223,11 @@ function reader(n){
 }
 function load(n){if(cache[n]!==undefined)return;
   fetch(`content/day-${String(n).padStart(3,"0")}.html`,{cache:"no-cache"}).then(r=>r.ok?r.text():null).catch(()=>null).then(t=>{cache[n]=t;if(view==="read"&&openDay===n)render();});}
-function render(){applyPrefs();const a=$("app");
+function render(){applyPrefs();const a=$("app");a.classList.toggle("pat",view!=="read");
   if(view==="read"){a.innerHTML=reader(openDay);return}
   a.innerHTML=(view==="home"?home():journey())+`<nav class="nav"><button type="button" data-view="home" ${view==="home"?'aria-current="page"':''}>☀️ आज</button><button type="button" data-view="journey" ${view==="journey"?'aria-current="page"':''}>🗺️ सफ़र</button></nav>`;}
 document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.notif){const k=b.dataset.notif;if(k==="on")notifOn();else if(k==="copy"){const t=$("ncode");(navigator.clipboard?navigator.clipboard.writeText(st.notif):Promise.reject()).then(()=>{b.textContent="Copied ✓"}).catch(()=>{t.focus();t.select()})}else if(k==="test"){navigator.serviceWorker.ready.then(r=>r.showNotification("🌸 कथा यात्रा",{body:"Test: notification ठीक काम कर रहे हैं!",icon:"icons/icon-192.png",badge:"icons/icon-192.png",tag:"test"}))}return}
   if(b.dataset.open){openDay=+b.dataset.open;view="read";load(openDay);render();window.scrollTo(0,0);return}
   if(b.hasAttribute("data-back"))view="home";
   else if(b.dataset.done){const n=+b.dataset.done;if(!st.read.includes(n))st.read.push(n);}
@@ -202,9 +236,11 @@ document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)r
   else if(b.dataset.th)st.theme=b.dataset.th;
   else return;
   save();render();if(view!=="read")window.scrollTo(0,0);});
-document.addEventListener("change",e=>{if(e.target.id==="start"&&e.target.value){st.start=e.target.value;save();render();}});
+document.addEventListener("change",e=>{if(e.target.id==="start"&&e.target.value){st.start=e.target.value;save();notifRefresh().then(render);}});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&view!=="read")render();});
-render();
+applyPrefs();render();
+setInterval(applyPrefs,60000);
+notifRefresh();
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js');
 </script>
 
