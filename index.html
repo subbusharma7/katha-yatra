@@ -26,7 +26,8 @@
 :root[data-theme="dark"]{--pat:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%20fill%3D%22none%22%20stroke%3D%22%239c98e6%22%20stroke-width%3D%221.6%22%20stroke-linejoin%3D%22round%22%20opacity%3D%220.16%22%3E%3Cg%20transform%3D%22translate%2816%2016%29%20scale%28.5%29%22%3E%3Cpath%20d%3D%22M32%2014c6%207%206%2021%200%2030-6-9-6-23%200-30z%22/%3E%3Cpath%20d%3D%22M32%2044c-4-9-12-15-20-15%201%209%208%2015%2020%2015z%22/%3E%3Cpath%20d%3D%22M32%2044c4-9%2012-15%2020-15-1%209-8%2015-20%2015z%22/%3E%3C/g%3E%3C/svg%3E"); --bg:#151633; --soft:#1d1e48; --ink:#e9e6ff; --muted:#a9a6d6; --line:#2e2f60; --accent:#f2c95c; --accent-soft:#23245a; --gold:#f2c95c; --gold-soft:#262862; color-scheme:dark}
 :root[data-theme="dark"] .go{border-radius:999px;color:#1a1b3d}
 :root[data-theme="dark"] .go.done{color:var(--accent);background:transparent}
-:root[data-theme="dark"] .dot.now{background:#fff;border-color:#fff}
+:root[data-theme="dark"] .dot.now{background:#fff;border-color:#fff;color:#1a1b3d}
+:root[data-theme="dark"] .dot.read{color:#1a1b3d}
 .key i.k-read{background:var(--accent);border-color:var(--accent)}.key i.k-now{background:var(--gold);border-color:var(--gold)}.key i.k-open{border-color:var(--gold)}
 :root[data-theme="dark"] .key i.k-now{background:#fff;border-color:#fff}
 :root[data-theme="dark"] .today{border:1px solid var(--line)}
@@ -72,10 +73,11 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outli
 .mh span:first-child{font-family:var(--display);font-size:18px}
 .mh span:last-child{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto}
 .dots{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-top:8px}
-.dot{aspect-ratio:1;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);padding:0}
-.dot.read{background:var(--accent);border-color:var(--accent)}
-.dot.open{border-color:var(--gold);border-width:2px}
-.dot.now{background:var(--gold);border-color:var(--gold)}
+.dot{aspect-ratio:1;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);padding:0;display:grid;place-items:center;font-size:12px;line-height:1;font-weight:500;font-variant-numeric:tabular-nums;color:var(--muted)}
+.dot.n3{font-size:10.5px;letter-spacing:-.02em}
+.dot.read{background:var(--accent);border-color:var(--accent);color:#fff}
+.dot.open{border-color:var(--gold);border-width:2px;color:var(--ink)}
+.dot.now{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
 .dot[data-lock]{cursor:default}
 .key{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-top:10px;flex-wrap:wrap}
 .key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1.5px solid var(--line);background:var(--bg)}
@@ -92,6 +94,9 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outli
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
 .rbar{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:2}
 .rbar button{border:none;background:none;color:var(--accent);font-size:17px;padding:8px 10px;min-height:42px;min-width:42px}
+.rbar.three{display:grid;grid-template-columns:1fr auto 1fr}
+.rbar.three>:first-child{justify-self:start}.rbar.three>.fs{justify-self:center;display:flex}.rbar.three>.nx{justify-self:end}
+.rbar button.dim{color:var(--muted)}
 .rprog{position:absolute;left:0;bottom:-1px;height:3px;background:var(--gold);width:0;border-radius:0 2px 2px 0;transition:width .15s linear}
 .reader{padding:24px 22px 48px;font-size:var(--read);line-height:1.85}
 .reader .sym{margin:0 auto;display:block;width:72px;height:72px}
@@ -232,7 +237,7 @@ function journey(){
   MONTHS.forEach((m,mi)=>{const s=mi*30+1,rn=st.read.filter(x=>x>=s&&x<s+30).length;
     h+=`<div class="month"><div class="mh"><span>${mi+1}. ${m}</span><span>${rn}/30</span></div><div class="dots">`;
     for(let n=s;n<s+30&&n<=TOTAL;n++){const r=st.read.includes(n),o=n<=T,now=n===T&&!r;
-      h+=`<button type="button" class="dot${r?' read':now?' now':o?' open':''}" ${o?`data-open="${n}"`:`data-lock="${n}"`} aria-label="Day ${n}${r?", पढ़ी":o?"":", अभी बंद"}"></button>`}
+      h+=`<button type="button" class="dot${n>99?' n3':''}${r?' read':now?' now':o?' open':''}" ${o?`data-open="${n}"`:`data-lock="${n}"`} aria-label="Day ${n}${r?", पढ़ी":o?"":", अभी बंद"}">${n}</button>`}
     h+=`</div></div>`;});
   h+=`<div class="key"><span><i class="k-read"></i>पढ़ी</span><span><i class="k-now"></i>आज</span><span><i class="k-open"></i>छूटी</span><span><i></i>आने वाली</span></div>
    <div class="set">
@@ -295,7 +300,8 @@ function about(){return `<div class="rbar"><button type="button" data-view="jour
 function reader(n){
   const d=info(n),read=st.read.includes(n),T=todayN(),nx=n<TOTAL?info(n+1):null;
   const body=cache[n]===undefined?`<p class="ph">कहानी खुल रही है...</p>`:cache[n]===null?`<p class="ph">यह कहानी जल्द आ रही है 🌸<br>थोड़ी देर बाद फिर देखिए।</p>`:cache[n];
-  return `<div class="rbar"><button type="button" data-back>← वापस</button><span><button type="button" data-size="-1" aria-label="Smaller text">अ−</button><button type="button" data-size="1" aria-label="Larger text">अ+</button></span><i class="rprog" id="rprog"></i></div>
+  const nxb=nx?`<button type="button" class="nx${nx.n>T?' dim':''}" ${nx.n<=T?`data-next="${nx.n}"`:`data-lock="${nx.n}"`} aria-label="अगली कहानी, Day ${nx.n}">आगे →</button>`:`<span class="nx"></span>`;
+  return `<div class="rbar three"><button type="button" data-back>← वापस</button><span class="fs"><button type="button" data-size="-1" aria-label="Smaller text">अ−</button><button type="button" data-size="1" aria-label="Larger text">अ+</button></span>${nxb}<i class="rprog" id="rprog"></i></div>
   <article class="reader"><div class="sym">${SYM[d.sym]}</div><div class="dayl">${d.f} · DAY ${d.n} · ${d.min} मिनट</div><h1>${d.t}</h1>${body}
    ${cache[n]?`<div class="done-wrap">${read?`<p class="thanks">✓ यह कहानी पढ़ ली गई है</p>`:`<button class="go" type="button" data-done="${n}" style="width:100%">पढ़ ली ✓</button>`}${nx&&n>=T?`<p class="thanks">कल की कहानी: <b>${nx.t}</b></p>`:''}</div>`:''}</article>`;
 }
@@ -331,6 +337,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)r
   if(b.dataset.notif){const k=b.dataset.notif;if(k==="on")notifOn();else if(k==="copy"){const t=$("ncode");(navigator.clipboard?navigator.clipboard.writeText(st.notif):Promise.reject()).then(()=>{b.textContent="Copied ✓"}).catch(()=>{t.focus();t.select()})}else if(k==="test"){navigator.serviceWorker.ready.then(r=>r.showNotification("🌸 कथा यात्रा",{body:"Test: notification ठीक काम कर रहे हैं!",icon:"icons/icon-192.png",badge:"icons/icon-192.png",tag:"test"}))}return}
   if(b.dataset.done){const n=+b.dataset.done;if(!st.read.includes(n))st.read.push(n);if(st.pos)delete st.pos[n];save();navTo("home");toast(`✓ Day ${n} पूरी हुई। बहुत बढ़िया! 🌸`);return}
   if(b.dataset.open){const n=+b.dataset.open;load(n).then(()=>navTo("read",n));return}
+  if(b.dataset.next){const n=+b.dataset.next;load(n).then(()=>navTo("read",n,"left"));if(n<TOTAL)load(n+1);return}
   if(b.dataset.lock){const n=+b.dataset.lock,d=n-todayN();toast(d===1?"🔒 यह कहानी कल सुबह खुलेगी":`🔒 Day ${n}, ${d} दिन बाद खुलेगी`,0);return}
   if(b.hasAttribute("data-back")){navTo("home");return}
   if(b.dataset.view){const v=b.dataset.view;if(v!==view)navTo(v,undefined,b.dataset.dir);return}
