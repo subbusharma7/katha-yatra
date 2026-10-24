@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f6e6a">
+<meta name="robots" content="noindex, nofollow">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -201,6 +202,7 @@ mountain:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-widt
 const D=window.KY_DAYS, MONTHS=window.KY_MONTHS, TOTAL=D.length;
 const S={get(k,f){try{const v=localStorage.getItem(k);return v==null?f:JSON.parse(v)}catch(e){return f}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+try{const q=new URLSearchParams(location.search).get("import");if(q){const imp=JSON.parse(decodeURIComponent(escape(atob(q))));const cur=S.get("ky_state",null);if(imp&&imp.start&&(!cur||(cur.read||[]).length<=(imp.read||[]).length))S.set("ky_state",imp);history.replaceState(null,"",location.pathname)}}catch(e){}
 let st=S.get("ky_state",null);
 if(!st){st={start:ymd(new Date()),read:[],size:19,theme:"auto"};S.set("ky_state",st);}
 let view="home",openDay=null;const cache={};
